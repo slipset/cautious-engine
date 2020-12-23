@@ -8,8 +8,6 @@ jobs:
     docker:
       # specify the version you desire here
       - image: circleci/clojure:lein-2.9.1
-      - image: borkdude/babashka
-
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
       # documented at https://circleci.com/docs/2.0/circleci-images/
@@ -23,6 +21,7 @@ jobs:
       JVM_OPTS: -Xmx3200m
 
     steps:
+
       - checkout
 
       # Download and cache dependencies
@@ -31,6 +30,13 @@ jobs:
             - v1-dependencies-{{ checksum "project.clj" }}
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
+
+      - run:
+         name: Install babashka
+         command: |
+            curl -L --output bb.zip https://github.com/borkdude/babashka/releases/download/v0.2.5/babashka-0.2.5-linux-amd64.zip
+            unzip bb.zip
+            chmod a+x bb
 
       - run: lein deps
 
