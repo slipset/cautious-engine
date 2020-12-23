@@ -9,6 +9,8 @@
         commit-count (str/trim-newline (:out (sh "git" "rev-list" "--count" "--first-parent" "HEAD")))]
     (str v "." commit-count)))
 
+(println (System/getenv "LEIN_USERNAME"))
+
 (if (->> (System/getenv "CIRCLE_SHA1")
          (sh "git" "show" "-s")
          :out
