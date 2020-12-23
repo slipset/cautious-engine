@@ -2,10 +2,11 @@
 
 (require '[clojure.java.shell :refer [sh]])
 (require '[clojure.edn :as edn])
+(require '[clojure.string :as str])
 
 (defn make-version! []
-  (let [v (edn/read-string "version.edn")
-        commit-count (:out (sh "git" "rev-list" "--count" "--first-parent" "HEAD"))]
+  (let [v (edn/read-string (slurp "version.edn"))
+        commit-count (str/trim-newline (:out (sh "git" "rev-list" "--count" "--first-parent" "HEAD")))]
     (str v "." commit-count)))
 
 (if (->> (System/getenv "CIRCLE_SHA1")
@@ -14,8 +15,8 @@
          (re-find #"\[ci deploy\]"))
   (do
     (println " executing " (first *command-line-args*))
-    (System/setenv "PROJECT_VERSION" (make-version!))
-    (apply sh *command-line-args*))
+    (apply sh (into (vec *command-line-args*) [:env (into {"PROJECT_VERSION" (make-version!)}
+                                                          (System/getenv))])))
   (println "skipping" (first *command-line-args*)))
 
 
