@@ -50,4 +50,4 @@ jobs:
 
       - run:
           name: Deploy
-          command: .circleci/maybe-deploy.bb 'echo deploying'
+          command: .circleci/maybe-deploy.bb echo deploying
