@@ -2,10 +2,8 @@
 
 (require '[clojure.java.shell :refer [sh]])
 
-(def circle-sha (System/getenv "CIRCLE_SHA1"))
-
-(println "CIRCLE SHA" circle-sha)
-(if (->> (sh "git" "show" "-s" circle-sha)
+(if (->> (System/getenv "CIRCLE_SHA1")
+         (sh "git" "show" "-s")
          :out
          (re-find #"\[ci deploy\]"))
   (do
