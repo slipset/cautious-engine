@@ -15,8 +15,6 @@ workflows:
           filters:
             tags:
               only: /Release-.*/
-            branches:
-              only: /main/
           context:
             - CLOJARS_DEPLOY
 
