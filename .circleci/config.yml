@@ -102,7 +102,7 @@ jobs:
       - run:
           name: Setup GPG signing key
           command: |
-            GNUPGHOME="$PWD/releaser-gpg"
+            GNUPGHOME="$PWD/.lein"
             export GNUPGHOME
             mkdir -p "$GNUPGHOME"
             chmod 0700 "$GNUPGHOME"
@@ -112,7 +112,7 @@ jobs:
                | gpg --batch --allow-secret-key-import --import
 
                gpg --keyid-format LONG --list-secret-keys
-               
+
       - save_cache:
           paths:
             - ~/.m2
