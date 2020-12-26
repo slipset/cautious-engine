@@ -119,4 +119,4 @@ jobs:
           key: v1-dependencies-{{ checksum "project.clj" }}
       - run:
          name: Deploy
-         command: env GPT_TTY="" ./circle-maybe-deploy.bb lein deploy clojars
+         command: env GPG_TTY=`tty` ./circle-maybe-deploy.bb lein deploy clojars
