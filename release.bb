@@ -16,10 +16,10 @@
   (sh "git" "tag" tag))
 
 (defn push! []
-  (println (:out (sh "git" "push"))))
+  (sh "git" "push"))
 
 (defn push-tag! [tag]
-  (println (:out (sh "git" "push" "origin" tag))))
+  (sh "git" "push" "origin" tag))
 
 (defn commit-count! []
   (str/trim-newline (:out (sh "git" "rev-list" "--count" "--first-parent" "HEAD"))))
