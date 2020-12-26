@@ -111,6 +111,8 @@ jobs:
                | base64 --decode --ignore-garbage \
                | gpg --batch --allow-secret-key-import --import
 
+               gpg --keyid-format LONG --list-secret-keys
+               
       - save_cache:
           paths:
             - ~/.m2
