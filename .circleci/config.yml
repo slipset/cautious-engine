@@ -102,7 +102,7 @@ jobs:
       - run:
           name: Setup GPG signing key
           command: |
-            GNUPGHOME="$PWD/.gnupg"
+            GNUPGHOME="$HOME/.gnupg"
             export GNUPGHOME
             mkdir -p "$GNUPGHOME"
             chmod 0700 "$GNUPGHOME"
