@@ -99,6 +99,18 @@ jobs:
 
       - run: lein deps
 
+      - run:
+          name: Setup GPG signing key
+          command: |
+            GNUPGHOME="$PWD/releaser-gpg"
+            export GNUPGHOME
+            mkdir -p "$GNUPGHOME"
+            chmod 0700 "$GNUPGHOME"
+
+              echo "$GPG_KEY" \
+               | base64 --decode --ignore-garbage \
+               | gpg --batch --allow-secret-key-import --import
+
       - save_cache:
           paths:
             - ~/.m2
