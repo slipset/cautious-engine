@@ -43,9 +43,6 @@ jobs:
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
 
-      - run:
-         name: Install babashka
-         command: bash <(curl -s https://raw.githubusercontent.com/borkdude/babashka/master/install) --dir . --download-dir .
       - run: lein deps
 
       - save_cache:
@@ -84,7 +81,16 @@ jobs:
 
       - run:
          name: Install babashka
-         command: bash <(curl -s https://raw.githubusercontent.com/borkdude/babashka/master/install) --dir . --download-dir .
+         command: |
+           curl -s https://raw.githubusercontent.com/borkdude/babashka/master/install -o install.sh
+           sudo bash install.sh
+           rm install.sh
+      - run:
+          name: Install deployment-script
+          command: |
+            curl -s https://raw.githubusercontent.com/clj-commons/infra/main/deployment/circle-maybe-deploy.bb -o circle-maybe-deploy.bb
+            chmod a+x circle-maybe-deploy.bb
+
       - run: lein deps
 
       - save_cache:
@@ -93,4 +99,4 @@ jobs:
           key: v1-dependencies-{{ checksum "project.clj" }}
       - run:
          name: Deploy
-         command: .circleci/maybe-deploy.bb lein deploy clojars
+         command: ./circle-maybe-deploy.bb lein deploy clojars
